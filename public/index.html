@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grilla de Sorteo</title>
+    <style>
+        .grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; }
+        .numero { padding: 10px; text-align: center; border: 1px solid #000; cursor: pointer; }
+        .vendido { background: red; color: white; }
+        .disponible { background: rgb(52, 247, 46); color: black; }
+    </style>
+</head>
+<body>
+    <div class="grid" id="grid"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io('http://localhost:3000');
+        const grid = document.getElementById('grid');
+
+        // Cargar números
+        fetch('http://localhost:3000/api/numeros')
+            .then((res) => res.json())
+            .then((data) => {
+                data.forEach((num) => {
+                    const div = document.createElement('div');
+                    div.className = `numero ${num.estado}`;
+                    div.textContent = num.numero;
+                    div.addEventListener('click', () => {
+                        fetch(`http://localhost:3000/api/numeros/${num.id}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ estado: 'vendido', usuario: 'usuario1' }),
+                        });
+                        socket.emit('marcarNumero', num.id);
+                    });
+                    grid.appendChild(div);
+                });
+            });
+            grid.addEventListener('click', (event) => {
+        const clickedElement = event.target; // Elemento clickeado
+
+        // Verifica que el clic ocurrió en un número
+        if (clickedElement.classList.contains('numero')) {
+            // Cambia las clases para marcarlo como vendido
+            clickedElement.classList.remove('disponible');
+            clickedElement.classList.add('vendido');
+            console.log(`Número seleccionado: ${clickedElement.textContent}`);
+        }
+    });
+            
+        // Actualizar números en tiempo real
+        socket.on('numeroMarcado', (id) => {
+            const div = document.querySelector(`.numero:nth-child(${id})`);
+            div.classList.add('vendido');
+        });
+    </script>
+</body>
+</html>
