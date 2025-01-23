@@ -22,10 +22,6 @@
         const socket = io('https://sorteo-97ny.onrender.com');
         const grid = document.getElementById('grid');
 
-        document.addEventListener('DOMContentLoaded', () => {
-        alert('¡ATENCIÓN! Si marca un numero por equivocación solo puede ser eliminado por el desarrollador!');
-});
-
         // Cargar números
         fetch('https://sorteo-97ny.onrender.com/api/numeros')
             .then((res) => res.json())
@@ -45,6 +41,9 @@
                     grid.appendChild(div);
                 });
             });
+            document.addEventListener('DOMContentLoaded', () => {
+        alert('¡ATENCIÓN! Si marca un numero por equivocación solo puede ser eliminado por el desarrollador!');
+        });
             grid.addEventListener('click', (event) => {
         const clickedElement = event.target; // Elemento clickeado
 
