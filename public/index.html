@@ -9,12 +9,14 @@
         .numero { padding: 10px; text-align: center; border: 1px solid #000; cursor: pointer; }
         .vendido { background: red; color: white; }
         .disponible { background: rgb(52, 247, 46); color: black; }
+        .footer {background-color: gainsboro; text-align: center;}
+        .title { text-align: center;}
     </style>
 </head>
 <body>
-    <h1>Grilla de Numeros</h1>
+    <h1 class="title">Grilla de Numeros</h1>
     <div class="grid" id="grid"></div>
-
+    <footer class="footer">Desarrollado por Ramiro Cavallero</footer>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io('https://sorteo-97ny.onrender.com');
