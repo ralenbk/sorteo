@@ -16,11 +16,11 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        const socket = io('http://localhost:3000');
+        const socket = io('http://localhost:3306');
         const grid = document.getElementById('grid');
 
         // Cargar números
-        fetch('http://localhost:3000/api/numeros')
+        fetch('http://localhost:3306/api/numeros')
             .then((res) => res.json())
             .then((data) => {
                 data.forEach((num) => {
@@ -28,7 +28,7 @@
                     div.className = `numero ${num.estado}`;
                     div.textContent = num.numero;
                     div.addEventListener('click', () => {
-                        fetch(`http://localhost:3000/api/numeros/${num.id}`, {
+                        fetch(`http://localhost:3306/api/numeros/${num.id}`, {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ estado: 'vendido', usuario: 'usuario1' }),
