@@ -3,70 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grilla de Sorteo</title>
-    <style>
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .numero { padding: 10px; text-align: center; border: 1px solid #000; cursor: pointer; }
-        .vendido { background: red; color: white; }
-        .disponible { background: rgb(52, 247, 46); color: black; }
-        .footer {background-color: gainsboro; text-align: center; margin-top: 2rem; padding-top: 2rem; height: 2rem; align-items: center;}
-        .title { text-align: center;}
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <title>Sorteo</title>
 </head>
 <body>
-    <h1 class="title">Grilla de Números</h1>
+    <h1 class="title">Grilla de Números para Rifa</h1>
     <div class="grid" id="grid"></div>
-    <footer class="footer">Desarrollado por Ramiro Cavallero 2025</footer>
+    <footer class="footer">©️ Desarrollado por Ramiro Cavallero - 2025</footer>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io('https://sorteo-97ny.onrender.com');
-        const grid = document.getElementById('grid');
-    
-        // Cargar números
-        fetch('https://sorteo-97ny.onrender.com/api/numeros')
-            .then((res) => res.json())
-            .then((data) => {
-                data.forEach((num) => {
-                    const div = document.createElement('div');
-                    div.className = `numero ${num.estado}`;
-                    div.textContent = num.numero;
-    
-                    // Manejar clic para cambiar estado
-                    div.addEventListener('click', () => {
-                        const nuevoEstado = div.classList.contains('disponible') ? 'vendido' : 'disponible';
-                        div.classList.toggle('disponible');
-                        div.classList.toggle('vendido');
-    
-                        fetch(`https://sorteo-97ny.onrender.com/api/numeros/${num.id}`, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ estado: nuevoEstado, usuario: 'usuario1' }),
-                        })
-                            .then((response) => {
-                                if (!response.ok) {
-                                    alert('Hubo un error al actualizar el estado en la base de datos');
-                                    // Revertir cambios en la UI si falla la solicitud
-                                    div.classList.toggle('disponible');
-                                    div.classList.toggle('vendido');
-                                }
-                            });
-    
-                        // Notificar a otros usuarios en tiempo real
-                        socket.emit('marcarNumero', { id: num.id, estado: nuevoEstado });
-                    });
-    
-                    grid.appendChild(div);
-                });
-            });
-            
-        // Actualizar números en tiempo real
-        socket.on('numeroMarcado', ({ id, estado }) => {
-            const div = document.querySelector(`.numero:nth-child(${id})`);
-            if (div) {
-                div.classList.remove('vendido', 'disponible');
-                div.classList.add(estado);
-            }
-        });
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>

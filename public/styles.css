@@ -1,0 +1,35 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.numero {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+
+.vendido {
+    background: red;
+    color: white;
+}
+
+.disponible {
+    background: rgb(52, 247, 46);
+    color: black; 
+}
+
+.footer {
+    background-color: gainsboro;
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    height: 2rem;
+    align-items: center;
+}
+
+.title {
+    text-align: center;
+}
