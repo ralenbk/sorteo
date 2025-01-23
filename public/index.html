@@ -12,12 +12,17 @@
     </style>
 </head>
 <body>
+    <h1>Grilla de Numeros</h1>
     <div class="grid" id="grid"></div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io('https://sorteo-97ny.onrender.com');
         const grid = document.getElementById('grid');
+
+        document.addEventListener('DOMContentLoaded', () => {
+        alert('¡ATENCIÓN! Si marca un numero por equivocación solo puede ser eliminado por el desarrollador!');
+});
 
         // Cargar números
         fetch('https://sorteo-97ny.onrender.com/api/numeros')
